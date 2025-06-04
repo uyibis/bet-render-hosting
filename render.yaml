@@ -2,8 +2,9 @@ services:
   - type: web
     name: phalcon-app
     env: docker
-    image: uyibis/phalcon-app:v5.0.0
-    staticPublishPath: ./public
+    image: uyibis/phalcon-app:v5.0.4
+    port: ${PORT:-80}
+    healthCheckPath: /
     envVars:
       - key: DATABASE_URL
         fromService:
@@ -30,4 +31,4 @@ services:
       name: mysql-data
       mountPath: /var/lib/mysql
       sizeGB: 10
-    ipAllowList: []  # Only internal connections allowed
+    ipAllowList: []
