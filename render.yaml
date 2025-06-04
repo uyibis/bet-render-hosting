@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: phalcon-app
+    env: docker
+    image: uyibis/phalcon-app:v5.0.0
+    staticPublishPath: ./public
+    envVars:
+      - key: DATABASE_URL
+        fromService:
+          name: mysql
+          type: pserv
+          property: connectionString
+      - key: APP_ENV
+        value: production
+
+  - type: pserv
+    name: mysql
+    env: docker
+    image: mysql:8.0
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: root
+      - key: MYSQL_DATABASE
+        value: boardman_app
+      - key: MYSQL_USER
+        value: phalcon
+      - key: MYSQL_PASSWORD
+        value: secret
+    disk:
+      name: mysql-data
+      mountPath: /var/lib/mysql
+      sizeGB: 10
+    ipAllowList: []  # Only internal connections allowed
